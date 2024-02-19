@@ -1,4 +1,6 @@
 import "./App.css";
+import SignUp from "./pages/SignUp";
+import Dietary from "./pages/Dietary";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./pages/Login";
 import Chat from "./pages/Chat";
