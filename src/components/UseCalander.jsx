@@ -104,10 +104,13 @@ const Modal = (props) => {
       <CloseButton onClick={() => props.setModalState(false)}>X</CloseButton>
       <div>{formatDate(props.selectedDate)}</div>
       <div>아침</div>
-      <div>점심</div>
+      <div>점심: 쌀밥, 콩나물국, 깍두기, 고등어 구이</div>
       <div>저녁</div>
-      <div>이날 쓴 탄소량</div>
-      <div>이날 평균에 비해 아낀 탄소량</div>
+      <div>이날 쓴 탄소량: 1600 gCO2e</div>
+
+      <div>이날 평균에 비해 아낀 탄소량: {3080 - 1600} gCO2e</div>
     </ModalDiv>
   );
+
+  // 인 평균 1인 식사 탄소배출량 10.24kg
 };

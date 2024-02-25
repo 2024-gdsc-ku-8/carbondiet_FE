@@ -1,6 +1,8 @@
 import { useCallback, useState, useEffect } from "react";
 import { data } from "../components/foodData";
 import { styled } from "styled-components";
+import { Link } from "react-router-dom";
+import ToChat from "../components/ToChat";
 
 const FoodButton = styled.div`
   width: max-content;
@@ -17,6 +19,7 @@ const SelectDiv = styled.div`
   display: flex;
   overflow-x: scroll;
   width: 60%;
+  min-width: 450px;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -26,7 +29,7 @@ const ListDiv = styled.div`
   overflow-y: scroll;
   margin-top: 20px;
   height: 200px;
-  width: 400px;
+  width: 450px;
   background-color: #d9d9d9;
   border-radius: 10px;
   padding: 15px;
@@ -41,31 +44,38 @@ const SubmitButton = styled.button`
   height: 60px;
   width: 200px;
   margin-top: 70px;
+  margin-left: 10px;
+  margin-right: 10px;
+
   border-radius: 10px;
   cursor: pointer;
+
+  &:hover {
+    background-color: #00a66b;
+  }
 `;
 
 export default function Submit() {
   const [foods, setFoods] = useState([]);
   const [selected, setSelected] = useState([]);
+  const [submitted, setSubmitted] = useState(0);
   const today = new Date();
 
   const initFood = async () => {
-    data.then((v) => setFoods(v));
+    data.then((v) => {
+      setFoods(v);
+    });
   };
 
   useEffect(() => {
     initFood();
   }, []);
 
-  const addFood = useCallback(
-    (id) => {
-      setSelected((prev) => {
-        return [...prev, id];
-      });
-    },
-    [selected]
-  );
+  const addFood = useCallback((id) => {
+    setSelected((prev) => {
+      return [...prev, id];
+    });
+  }, []);
 
   const deleteFood = useCallback((id) => {
     setSelected((prev) => {
@@ -81,8 +91,8 @@ export default function Submit() {
       foodNames = foodNames + foods[id - 1].name;
       foodValue += Number(foods[id - 1].value);
     });
-    console.log(foodNames);
-    console.log(foodValue);
+    setSelected([]);
+    setSubmitted(foodValue);
   };
 
   return (
@@ -116,10 +126,34 @@ export default function Submit() {
             <p style={{ fontSize: 20 }}>{foods[id - 1].name}</p>
           </FoodButton>
         ))}
+        {submitted !== 0 && (
+          <p
+            style={{
+              fontSize: 20,
+              margin: "auto",
+              width: "100%",
+              textAlign: "center",
+            }}
+          >
+            저장되었습니다! 탄소배출량은 {submitted} gCO2e입니다.
+          </p>
+        )}
       </ListDiv>
-      <SubmitButton disabled={selected.length === 0} onClick={submitHandle}>
-        <span style={{ color: "#fff", fontSize: 20 }}>저장하기</span>
-      </SubmitButton>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        {submitted === 0 && (
+          <SubmitButton disabled={selected.length === 0} onClick={submitHandle}>
+            <span style={{ color: "#fff", fontSize: 20 }}>저장하기</span>
+          </SubmitButton>
+        )}
+        <Link to="/dietary" style={{ textDecoration: "none" }}>
+          <SubmitButton>
+            <span style={{ color: "#fff", fontSize: 20 }}>
+              내 식단 확인하기
+            </span>
+          </SubmitButton>
+        </Link>
+      </div>
+      <ToChat />
     </div>
   );
 }

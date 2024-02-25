@@ -8,8 +8,10 @@ import Submit from "./pages/Submit";
 
 const router = createBrowserRouter([
   { path: "/", element: <Login /> },
+  { path: "/signup", element: <SignUp /> },
   { path: "/chat", element: <Chat /> },
   { path: "/submit", element: <Submit /> },
+  { path: "/dietary", element: <Dietary /> },
 ]);
 
 function App() {

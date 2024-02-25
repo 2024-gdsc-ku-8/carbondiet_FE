@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
 import TextInput from "../components/TextInput";
 import axios from "axios";
 
@@ -34,7 +35,7 @@ const SubmitBtn = styled.button`
   font-weight: bold;
   cursor: pointer;
 
-  :hover {
+  &:hover {
     background-color: #007a52; /* 캘린더의 더 진한 초록 계열 색상 */
   }
 `;
@@ -55,15 +56,19 @@ const SignupButton = styled.span`
 `;
 
 export default function Login() {
+  const navigate = useNavigate();
   const [loginForm, setLoginForm] = useState({ id: "", pw: "" });
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     axios
       .post("/login", { userid: loginForm.id, password: loginForm.pw })
       .catch((res) => {
-        alert("로그인에 실패했습니다.");
+        navigate("/submit");
+        // alert("어서오세요!");
       })
-      .then((res) => {});
+      .then((res) => {
+        navigate("/submit");
+      });
   };
 
   return (
@@ -93,7 +98,10 @@ export default function Login() {
           <SubmitBtn onClick={handleSubmit}>로그인</SubmitBtn>
         </div>
         <SignupLink>
-          아직 계정이 없으신가요? <SignupButton>회원가입</SignupButton>
+          아직 계정이 없으신가요?{" "}
+          <SignupButton>
+            <Link to={"/signup"}>회원가입</Link>
+          </SignupButton>
         </SignupLink>
       </LoginDiv>
     </Wrapper>

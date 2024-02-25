@@ -1,5 +1,5 @@
 const processCSV = (str, delim = ",") => {
-  const headers = str.slice(0, str.indexOf("\r\n") + 1).split(delim);
+  const headers = str.slice(0, str.indexOf("\r\n")).split(delim);
   const rows = str.slice(str.indexOf("\r\n") + 1).split("\r\n");
 
   const newArray = rows.map((row) => {
